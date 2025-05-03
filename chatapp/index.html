@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meow Messenger 🐱</title>
+  <style>
+    :root {
+      --primary: #FF9A8B;
+      --secondary: #FF6B95;
+      --light: #FFD1DC;
+      --dark: #4A2545;
+      --accent: #FFD166;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, var(--light) 0%, #f5f7fa 100%);
+      min-height: 100vh;
+      color: var(--dark);
+    }
+    
+    .cat-header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    
+    .cat-header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .cat-paw {
+      font-size: 2rem;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    #chat-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 1rem;
+      height: 60vh;
+      overflow-y: auto;
+      background: url('https://placekitten.com/800/600') center/cover;
+      background-blend-mode: overlay;
+      background-color: rgba(255,255,255,0.8);
+    }
+    
+    #messages > li {
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message-content {
+      font-size: 1.1rem;
+    }
+    
+    .message-time {
+      font-size: 0.7rem;
+      color: #666;
+      float: right;
+    }
+    
+    .cat-emoji {
+      font-size: 1.2rem;
+      margin-right: 5px;
+    }
+    
+    #form {
+      display: flex;
+      padding: 0.5rem;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+    
+    #input {
+      flex-grow: 1;
+      padding: 0.8rem 1rem;
+      border: none;
+      border-radius: 25px;
+      margin: 0.25rem;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    #form > button {
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      padding: 0 1.5rem;
+      margin: 0.25rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    
+    #form > button:hover {
+      background: #ffbb33;
+      transform: scale(1.05);
+    }
+    
+    .send-icon {
+      margin-left: 5px;
+    }
+    
+    .typing-indicator {
+      padding: 0.5rem 1rem;
+      font-style: italic;
+      color: #666;
+      display: none;
+    }
+    
+    .cat-status {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+    
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+      background: #4CAF50;
+    }
+    
+    /* Cat animations */
+    .cat-animation {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 3rem;
+      animation: walk 15s linear infinite;
+    }
+    
+    @keyframes walk {
+      0% { transform: translateX(-100px) rotateY(0deg); }
+      50% { transform: translateX(calc(100vw - 100px)) rotateY(0deg); }
+      51% { transform: translateX(calc(100vw - 100px)) rotateY(180deg); }
+      100% { transform: translateX(-100px) rotateY(180deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="cat-header">
+    <h1>Meow Messenger <span class="cat-paw">🐾</span></h1>
+  </div>
+  
+  <div class="cat-animation">🐈</div>
+  
+  <div id="chat-container">
+    <ul id="messages"></ul>
+    <div class="typing-indicator" id="typing"></div>
+  </div>
+  
+  <div class="cat-status" id="status">
+    <div class="status-dot"></div>
+    <span>Connected</span>
+  </div>
+  
+  <form id="form" action="">
+    <input id="input" autocomplete="off" placeholder="Type your meowssage..." />
+    <button type="submit">Send <span class="send-icon">✉️</span></button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const messages = document.getElementById('messages');
+    const typingIndicator = document.getElementById('typing');
+    const statusElement = document.getElementById('status');
+    
+    // Random cat emojis for messages
+    const catEmojis = ['😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🐱'];
+    
+    // Format time to HH:MM
+    function formatTime(date) {
+      return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    // Get random cat emoji
+    function getRandomCat() {
+      return catEmojis[Math.floor(Math.random() * catEmojis.length)];
+    }
+    
+    // Form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = input.value.trim();
+      if (message) {
+        socket.emit('chat message', message);
+        input.value = '';
+      }
+    });
+    
+    // Typing indicator
+    let typingTimeout;
+    input.addEventListener('input', () => {
+      socket.emit('typing');
+      clearTimeout(typingTimeout);
+      typingTimeout = setTimeout(() => {
+        socket.emit('stop typing');
+      }, 2000);
+    });
+    
+    // New message received
+    socket.on('chat message', (msg) => {
+      typingIndicator.style.display = 'none';
+      const item = document.createElement('li');
+      item.innerHTML = `
+        <span class="cat-emoji">${getRandomCat()}</span>
+        <span class="message-content">${msg.content}</span>
+        <span class="message-time">${formatTime(msg.createdAt)}</span>
+      `;
+      messages.appendChild(item);
+      messages.scrollTop = messages.scrollHeight;
+    });
+    
+    // Message history
+    socket.on('message history', (msgs) => {
+      msgs.forEach(msg => {
+        const item = document.createElement('li');
+        item.innerHTML = `
+          <span class="cat-emoji">${getRandomCat()}</span>
+          <span class="message-content">${msg.content}</span>
+          <span class="message-time">${formatTime(msg.createdAt)}</span>
+        `;
+        messages.appendChild(item);
+      });
+      messages.scrollTop = messages.scrollHeight;
+    });
+    
+    // Typing indicator
+    socket.on('typing', () => {
+      typingIndicator.textContent = 'Someone is typing... 🐾';
+      typingIndicator.style.display = 'block';
+    });
+    
+    socket.on('stop typing', () => {
+      typingIndicator.style.display = 'none';
+    });
+    
+    // Connection status
+    socket.on('connect', () => {
+      statusElement.querySelector('.status-dot').style.background = '#4CAF50';
+      statusElement.querySelector('span').textContent = 'Connected';
+    });
+    
+    socket.on('disconnect', () => {
+      statusElement.querySelector('.status-dot').style.background = '#F44336';
+      statusElement.querySelector('span').textContent = 'Disconnected';
+    });
+  </script>
+</body>
+</html>

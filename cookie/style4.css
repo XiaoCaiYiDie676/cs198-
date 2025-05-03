@@ -1,0 +1,14 @@
+#picture {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+#counterText {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+}

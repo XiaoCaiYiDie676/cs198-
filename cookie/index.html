@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Clicker</title>
+    <style>
+        #picture {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        #counterText {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="counterText">
+        <span id="counter">0</span> cookies
+    </h1>
+    <br>
+    <img src="https://th.bing.com/th/id/OIP.kZ3B4NdCvs4cSLxaZ1BZCgHaHb?w=179&h=181&c=7&r=0&o=5&dpr=2&pid=1.7" 
+         width="500px" height="500px" id="picture" 
+         onclick="addOneToCounter()" 
+         onmousedown="makePictureSmaller()" 
+         onmouseup="makePictureBigger()" />
+    <script>
+        function addOneToCounter() {
+            const counter = document.getElementById("counter");
+            counter.innerText = parseInt(counter.innerText) + 1;
+            let x = Math.floor((Math.random() * 100) + 1);
+            const colors = ["blue", "red", "purple", "green", "black", "orange", "magenta", "cyan"];
+            const index = x % colors.length;
+            document.getElementById("counterText").style.color = colors[index];
+        }
+
+        function makePictureSmaller() {
+            const img = document.getElementById("picture");
+            if (img) {
+                img.style.height = "480px";
+                img.style.width = "480px";
+            }
+        }
+
+        function makePictureBigger() {
+            const img = document.getElementById("picture");
+            if (img) {
+                img.style.height = "500px";
+                img.style.width = "500px";
+            }
+        }
+    </script>
+</body>
+</html>
