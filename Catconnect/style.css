@@ -1,0 +1,184 @@
+html {
+    font-size: 14px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #EF6D6D;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.dashboard {
+    padding: 2rem;
+    width: 40rem;
+    margin: 0 auto;
+    border-radius: 2rem;
+    position: relative;
+    background: white;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+}
+
+h1 {
+    width: calc(100% + 4rem);
+    margin: -2rem 0 2rem -2rem;
+    padding: .5rem;
+    background: #573391;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 100;
+    font-family: 'Jua', sans-serif;
+    text-shadow: 3px 3px 0 #EF6D6D;
+    color: white;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+}
+
+.name h3 {
+    padding-right: 1rem;
+}
+
+.name button {
+    margin-left: 1rem;
+}
+
+#pet-name, #checkup-message {
+    font-size: 1.5rem;
+    font-family: 'Jua', sans-serif;
+}
+
+.state meter {
+    position: relative;
+    width: 100%;
+    height: 30px;
+}
+
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.control-panel button {
+    margin: 2px;
+    flex: 1 1 30%;
+    min-width: 100px;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-family: 'Jua', sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.pet-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.cat-image {
+    margin: auto;
+    width: 224px;
+    height: 256px;
+    background-image: url('../images/cat_kiss_heart_static.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.3s;
+}
+
+.cat-image:hover {
+    background-image: url('../images/cat_kiss_heart.gif');
+    transform: scale(1.05);
+}
+
+.children-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.child-pet {
+    width: 80px;
+    height: 90px;
+    background-image: url('../images/cat_kiss_heart_static.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.child-name {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-family: 'Jua', sans-serif;
+}
+
+button {
+    background: #ffc600;
+    border: 2px solid #F3C010;
+    cursor: pointer;
+    position: relative;
+}
+
+button:active {
+    top: 2px;
+}
+
+button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.status-alive {
+    color: green;
+    font-weight: bold;
+}
+
+.status-dead {
+    color: red;
+    font-weight: bold;
+}
+
+#pet-status {
+    margin-left: 1rem;
+    font-family: 'Jua', sans-serif;
+}
+
+@keyframes happy {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.happy-animation {
+    animation: happy 0.5s ease-in-out 2;
+}
+
+@keyframes hungry {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.hungry-animation {
+    animation: hungry 1s ease-in-out infinite;
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Virtual Pet</title>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>🐶 Virtual Pet 🐱</h1>
+
+        <div class="name">
+            <h3>Pet's name</h3>
+            <input type="text" name="name-input" id="name-input" placeholder="Name" required />
+            <button type="button" id="name-button">Add</button>
+        </div>
+        <hr>
+        <br>
+        <div class="state">
+            <label for="pet-name">Name: </label>
+            <span id="pet-name"></span>
+            <span id="pet-status" class="status-alive">● Alive</span>
+            <br>
+            <br>
+            <label for="pet-age">Age: </label>
+            <span id="pet-age-value"></span>
+            <meter id="pet-age" value="0" min="0" max="30"></meter>
+            <br>
+            <br>
+            <label for="pet-hunger">Hunger: </label>
+            <span id="pet-hunger-value"></span>
+            <meter id="pet-hunger" value="0" min="0" max="10" high="5"></meter>
+            <br>
+            <br>
+            <label for="pet-fitness">Fitness: </label>
+            <span id="pet-fitness-value"></span>
+            <meter id="pet-fitness" value="10" min="0" max="10" low="4">0</meter>
+            <br>
+            <br>
+            <label for="pet-checkup">Status: </label>
+            <span id="checkup-message"></span>
+            <br>
+            <br>
+        </div>
+        <hr>
+
+        <div class="pet-container">
+            <div class="cat-image" id="pet-image"></div>
+            <div class="children-container" id="children-container"></div>
+        </div>
+        <hr>
+
+        <div class="control-panel">
+            <h3>Actions</h3>
+            <button type="button" id="grow-button">Grow up</button>
+            <button type="button" id="feed-button">Feed me</button>
+            <button type="button" id="walk-button">Walk me</button>
+            <button type="button" id="play-button">Play with me</button>
+            <button type="button" id="baby-button">Have a baby</button>
+            <button type="button" id="adopt-button">Adopt a pet</button>
+            <br>
+        </div>
+    </div>
+
+    <script src="src/addname.js"></script>
+    <script src="src/pet.js"></script>
+    <script src="src/controller.js"></script>
+    <script>
+        let pet;
+        let controller;
+    </script>
+</body>
+</html>
